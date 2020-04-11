@@ -1,3 +1,6 @@
 pytest
+coverage
+pylint
+pylint-fail-under
 pyperclip
 peewee
