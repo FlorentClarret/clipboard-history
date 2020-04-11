@@ -1,0 +1,28 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@0.2.1
+
+jobs:
+  build:
+    executor: python/default
+    steps:
+      - checkout
+      - python/install-deps
+      - run:
+          name: Test
+          command: pytest
+      - run:
+          name: Generate coverage
+          command: coverage run --rcfile=etc/coveragerc -m pytest
+      - run:
+          name: Generate coverage report
+          command: coverage report
+      - run:
+          name: Run pylint
+          command: pylint-fail-under --fail_under 6.0 --rcfile=etc/pylintrc clipboard_history/
+
+workflows:
+  main:
+    jobs:
+      - build
