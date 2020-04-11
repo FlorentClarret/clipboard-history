@@ -48,15 +48,17 @@ class TestDatabase:
         shutil.copyfile(ROOT_DIR + 'data/database_get_latest.txt',
                         ROOT_DIR + 'data/tmp_database_get_latest.txt')
         init(ROOT_DIR + 'data/tmp_database_get_latest.txt')
+
         now = datetime.now()
-
-        result = get_latest()
-        assert result.value == 'test2'
-        assert result.date is not None
-
         add('foo', now)
+        result2 = get_latest()
+        assert result2.value == 'foo'
+        assert result2.date == now
+
+        now = datetime.now()
+        add('bar', now)
         result = get_latest()
-        assert result.value == 'foo'
+        assert result.value == 'bar'
         assert result.date == now
 
     def test_delete_all(self):
