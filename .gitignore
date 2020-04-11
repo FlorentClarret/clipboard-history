@@ -1,0 +1,2 @@
+# Ignore temporary database files used for tests
+clipboard_history/tests/data/tmp*
