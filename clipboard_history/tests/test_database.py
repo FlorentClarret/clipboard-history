@@ -13,14 +13,14 @@ ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) + "/"
 class TestDatabase:
 
     def test_init(self):
-        if os.path.exists(ROOT_DIR + 'data/tmp_database_init.txt'):
-            os.remove(ROOT_DIR + 'data/tmp_database_init.txt')
+        if os.path.exists(ROOT_DIR + 'data/database/tmp_database_init.txt'):
+            os.remove(ROOT_DIR + 'data/database/tmp_database_init.txt')
 
-        init(ROOT_DIR + 'data/tmp_database_init.txt')
+        init(ROOT_DIR + 'data/database/tmp_database_init.txt')
         assert len(get_all()) == 0
 
     def test_get_all(self):
-        init(ROOT_DIR + 'data/database_get_all.txt')
+        init(ROOT_DIR + 'data/database/database_get_all.txt')
         result = get_all()
 
         assert len(result) == 2
@@ -30,10 +30,10 @@ class TestDatabase:
         assert result[1].date is not None
 
     def test_add(self):
-        if os.path.exists(ROOT_DIR + 'data/tmp_database_add.txt'):
-            os.remove(ROOT_DIR + 'data/tmp_database_add.txt')
+        if os.path.exists(ROOT_DIR + 'data/database/tmp_database_add.txt'):
+            os.remove(ROOT_DIR + 'data/database/tmp_database_add.txt')
 
-        init(ROOT_DIR + 'data/tmp_database_add.txt')
+        init(ROOT_DIR + 'data/database/tmp_database_add.txt')
         assert len(get_all()) == 0
 
         now = datetime.now()
@@ -45,10 +45,10 @@ class TestDatabase:
         assert objects[0].date == now
 
     def test_add_max_element(self):
-        if os.path.exists(ROOT_DIR + 'data/tmp_database_add.txt'):
-            os.remove(ROOT_DIR + 'data/tmp_database_add.txt')
+        if os.path.exists(ROOT_DIR + 'data/database/tmp_database_add.txt'):
+            os.remove(ROOT_DIR + 'data/database/tmp_database_add.txt')
 
-        init(ROOT_DIR + 'data/tmp_database_add.txt')
+        init(ROOT_DIR + 'data/database/tmp_database_add.txt')
         assert len(get_all()) == 0
 
         now = datetime.now()
@@ -64,9 +64,9 @@ class TestDatabase:
         assert objects[1].date == now + timedelta(days=1)
 
     def test_get_latest(self):
-        shutil.copyfile(ROOT_DIR + 'data/database_get_latest.txt',
-                        ROOT_DIR + 'data/tmp_database_get_latest.txt')
-        init(ROOT_DIR + 'data/tmp_database_get_latest.txt')
+        shutil.copyfile(ROOT_DIR + 'data/database/database_get_latest.txt',
+                        ROOT_DIR + 'data/database/tmp_database_get_latest.txt')
+        init(ROOT_DIR + 'data/database/tmp_database_get_latest.txt')
 
         now = datetime.now()
         add('foo', now)
@@ -81,9 +81,9 @@ class TestDatabase:
         assert result.date == now
 
     def test_delete_all(self):
-        shutil.copyfile(ROOT_DIR + 'data/database_delete_all.txt',
-                        ROOT_DIR + 'data/tmp_database_delete_all.txt')
-        init(ROOT_DIR + 'data/tmp_database_delete_all.txt')
+        shutil.copyfile(ROOT_DIR + 'data/database/database_delete_all.txt',
+                        ROOT_DIR + 'data/database/tmp_database_delete_all.txt')
+        init(ROOT_DIR + 'data/database/tmp_database_delete_all.txt')
 
         assert len(get_all()) == 2
         delete_all()

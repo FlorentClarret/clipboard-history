@@ -4,3 +4,4 @@ pylint
 pylint-fail-under
 pyperclip
 peewee
+appdirs
