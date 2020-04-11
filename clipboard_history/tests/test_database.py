@@ -3,7 +3,7 @@
 
 import os
 import shutil
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from clipboard_history.database import init, get_all, add, get_latest, delete_all
 
@@ -24,9 +24,9 @@ class TestDatabase:
         result = get_all()
 
         assert len(result) == 2
-        assert result[0].value == 'test1'
+        assert result[0].value == 'test2'
         assert result[0].date is not None
-        assert result[1].value == 'test2'
+        assert result[1].value == 'test1'
         assert result[1].date is not None
 
     def test_add(self):
@@ -37,12 +37,31 @@ class TestDatabase:
         assert len(get_all()) == 0
 
         now = datetime.now()
-        add('tests', now)
+        add('tests', now, 1)
 
         objects = get_all()
         assert len(objects) == 1
         assert objects[0].value == 'tests'
         assert objects[0].date == now
+
+    def test_add_max_element(self):
+        if os.path.exists(ROOT_DIR + 'data/tmp_database_add.txt'):
+            os.remove(ROOT_DIR + 'data/tmp_database_add.txt')
+
+        init(ROOT_DIR + 'data/tmp_database_add.txt')
+        assert len(get_all()) == 0
+
+        now = datetime.now()
+        add('tests1', now, 2)
+        add('tests2', now + timedelta(days=1), 2)
+        add('tests3', now + timedelta(days=2), 2)
+
+        objects = get_all()
+        assert len(objects) == 2
+        assert objects[0].value == 'tests3'
+        assert objects[0].date == now + timedelta(days=2)
+        assert objects[1].value == 'tests2'
+        assert objects[1].date == now + timedelta(days=1)
 
     def test_get_latest(self):
         shutil.copyfile(ROOT_DIR + 'data/database_get_latest.txt',
