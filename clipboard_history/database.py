@@ -31,7 +31,7 @@ def init(file):
 
 def add(data, date=datetime.now(), max_element=50):
     """ And a copied element to the database """
-    if CopyElement.select().count() >= max_element:
+    if CopyElement.select().count(_DATABASE) >= max_element:
         CopyElement.delete_instance(CopyElement.select().order_by(CopyElement.date.asc()).get())
     CopyElement(value=data, date=date).save()
 
