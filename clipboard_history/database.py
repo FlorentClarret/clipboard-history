@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 # coding: utf-8
 
-""" This module allow to interact with the database """
+""" This module allow to interact with the database. """
 
 from datetime import datetime
 from peewee import Model, DateTimeField, CharField, SqliteDatabase
@@ -10,7 +10,7 @@ _DATABASE = SqliteDatabase(None)
 
 
 class BaseModel(Model):
-    """ Super class for all the entity stored in the database """
+    """ Super class for all the entity stored in the database. """
     class Meta:
         # pylint: disable=R0903
         """ Specify the database """
@@ -24,7 +24,7 @@ class CopyElement(BaseModel):
 
 
 def init(file):
-    """ Initialize the database using the given file """
+    """ Initialize the database using the given file. """
     _DATABASE.init(file)
     _DATABASE.create_tables([CopyElement])
 
@@ -37,15 +37,15 @@ def add(data, date=datetime.now(), max_element=50):
 
 
 def get_latest():
-    """ Return the latest element stored in the database """
+    """ Return the latest element stored in the database. """
     return CopyElement.select().order_by(CopyElement.date.desc()).get()
 
 
 def get_all():
-    """ Return all the copied elements stored in the database as a list """
+    """ Return all the copied elements stored in the database as a list. """
     return list(CopyElement.select().order_by(CopyElement.date.desc()))
 
 
 def delete_all():
-    """ Delete all the elements from the database """
+    """ Delete all the elements from the database. """
     CopyElement.delete().execute(_DATABASE)
