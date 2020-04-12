@@ -26,8 +26,7 @@ def main():
     logging.basicConfig(format=LOG_FORMAT, level=logging.DEBUG)
     logger = logging.getLogger('clipboard-history')
 
-    args = parse_arguments()
-    config = Configuration(args.config)
+    config = Configuration(parse_arguments().config)
 
     logger.info("Database location : %s", config.database_location)
     database.init(config.database_location)

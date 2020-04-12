@@ -1,5 +1,5 @@
 # Ignore temporary database files used for tests
-clipboard_history/tests/data/tmp*
+clipboard_history/tests/data/database/tmp*
 
 # Coverage files
 .coverage
