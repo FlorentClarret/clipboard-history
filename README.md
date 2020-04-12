@@ -4,7 +4,7 @@
 
 This project is a simple python application which get all the data copied and insert them in a sqlite database.
 
-This project is realized for the [pybit.es 54th python chalenge](https://pybit.es/codechallenge54.html) 
+This project is realized for the [pybit.es 54th python challenge](https://pybit.es/codechallenge54.html) 
 
 # TODO 
 
