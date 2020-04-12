@@ -1,6 +1,8 @@
 #! /usr/bin/env python3
 # coding: utf-8
 
+""" This module deals with configuration files and default configuration """
+
 import json
 import os
 
@@ -17,12 +19,14 @@ DEFAULT_CONFIGURATION_FILE = "clipboard-history.conf"
 
 
 class Configuration:
-    def __init__(self, path):
-        if not path:
-            app_dirs = AppDirs(APP_NAME, APP_AUTHOR)
+    """ Class that holds all the configuration for the application """
 
-            if os.path.exists(app_dirs.user_config_dir + "/" + DEFAULT_CONFIGURATION_FILE):
-                path = app_dirs.user_config_dir + "/" + DEFAULT_CONFIGURATION_FILE
+    def __init__(self, path, app_dirs=AppDirs(APP_NAME, APP_AUTHOR)):
+        self.app_dirs = app_dirs
+
+        if not path and os.path.exists(
+                self.app_dirs.user_config_dir + "/" + DEFAULT_CONFIGURATION_FILE):
+            path = self.app_dirs.user_config_dir + "/" + DEFAULT_CONFIGURATION_FILE
 
         if path:
             with open(path, 'r') as file:
@@ -32,18 +36,18 @@ class Configuration:
 
     @property
     def database_location(self):
+        """ Return the location of the database which store all the data """
         if self.config and self.config['database'] and self.config['database']['location']:
             return self.config['database']['location']
 
-        app_dirs = AppDirs(APP_NAME, APP_AUTHOR)
+        if not os.path.exists(self.app_dirs.user_data_dir):
+            os.mkdir(self.app_dirs.user_data_dir)
 
-        if not os.path.exists(app_dirs.user_data_dir):
-            os.mkdir(app_dirs.user_data_dir)
-
-        return app_dirs.user_data_dir + "/" + DEFAULT_DATABASE_FILE
+        return self.app_dirs.user_data_dir + "/" + DEFAULT_DATABASE_FILE
 
     @property
     def database_max_element(self):
+        """ Return the maximum number of element to store in the database """
         if self.config and self.config['database'] and self.config['database']['max_element']:
             return int(self.config['database']['max_element'])
 
@@ -51,6 +55,7 @@ class Configuration:
 
     @property
     def refresh_interval(self):
+        """ Return the refresh interval to check to clipboard """
         if self.config and self.config['refresh_interval']:
             return float(self.config['refresh_interval'])
 
